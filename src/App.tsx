@@ -17,7 +17,7 @@ type HueLight = {
 
 function App() {
   const [lights, setLights] = useState<Light[]>([]);
-  useEffect(() => {
+  const fetchLights = () => {
     fetch(
       "http://192.168.0.201/api/REMOVED/lights",
     )
@@ -32,12 +32,15 @@ function App() {
         );
         setLights(shaped);
       });
+  };
+  useEffect(() => {
+    fetchLights();
   }, []);
   return (
     <>
       <h1>SmartHome Dashboard</h1>
       {lights.map((light) => (
-        <LightCard key={light.id} light={light} />
+        <LightCard key={light.id} light={light} refresh={fetchLights} />
       ))}
     </>
   );
