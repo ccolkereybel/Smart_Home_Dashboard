@@ -39,13 +39,7 @@ function App() {
   return (
     <>
       <h1>SmartHome Dashboard</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "10px",
-        }}
-      >
+      <div className="grid grid-cols-3 gap-4">
         {lights.map((light) => (
           <LightCard key={light.id} light={light} refresh={fetchLights} />
         ))}
