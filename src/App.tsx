@@ -39,11 +39,9 @@ function App() {
   return (
     <>
       <h1>SmartHome Dashboard</h1>
-      <div className=" mb-4 w-1/2 p-4">
-        <h3 className="font-bold text-xl mb-2 text-center p-4">
-          Light Controls
-        </h3>
-        <div className="grid grid-cols-3 gap-4">
+      <div className="lightcontrolssize">
+        <h3 className="lightcontrolstitle">Light Controls</h3>
+        <div className="lightcontrolsgrid">
           {lights.map((light) => (
             <LightCard key={light.id} light={light} refresh={fetchLights} />
           ))}
