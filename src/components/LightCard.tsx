@@ -1,4 +1,5 @@
 import './LightCard.css'
+import { Lightbulb } from 'lucide-react'
 
 type Light = {
     id: string
@@ -26,15 +27,12 @@ function LightCard({ light, refresh }: LightCardProps) {
         })
     }
     return (
-        <div
-            onClick={toggleLight}
-            className={`light-squares ${light.isOn ? 'light-on' : 'light-off'}`}
-        >
-            <h3
-                className={`card-title ${light.isOn ? 'title-on' : 'title-off'}`}
-            >
-                {light.name}
-            </h3>
+        <div className="light-squares light-toggle-btn" onClick={toggleLight}>
+            <h3 className="card-title">{light.name}</h3>
+            <Lightbulb
+                size={24}
+                className={light.isOn ? 'bulb-on' : 'bulb-off'}
+            />
         </div>
     )
 }

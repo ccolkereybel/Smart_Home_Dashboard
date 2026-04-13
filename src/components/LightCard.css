@@ -1,25 +1,40 @@
 @import 'tailwindcss';
 
 .card-title {
-    @apply mb-2 text-center text-xl font-bold;
-}
-
-.title-on {
-    color: black;
-}
-
-.title-off {
-    color: white;
+    primary-text-color: '#464a47';
+    secondary-text-color: '#000000';
+    text-primary-color: '#FFF';
+    disabled-text-color: '#555';
+    text-dark-color: '#FFF';
 }
 
 .light-squares {
-    @apply flex max-w-sm flex-col items-center overflow-hidden rounded-[1vw] px-6 py-4 shadow-lg;
+    @apply flex max-w-sm flex-col items-center px-6 py-4 shadow-lg;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    transition: all 0.2s ease;
 }
 
-.light-on {
-    background-image: radial-gradient(circle at top, white 40%, #ffffc5 70%);
+.light-squares:has(.bulb-on) {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 214, 10, 0.15);
 }
 
-.light-off {
-    background-image: radial-gradient(circle at bottom, white 0%, black 100%);
+.light-toggle-btn {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.bulb-on {
+    color: #ffd60a;
+    filter: drop-shadow(0 0 6px rgba(255, 214, 10, 0.6));
+    transition: all 0.2s ease;
+}
+
+.bulb-off {
+    color: rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
 }
