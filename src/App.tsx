@@ -51,7 +51,8 @@ function App() {
     }, [])
     return (
         <>
-            <h1>SmartHome Dashboard</h1>
+            <h1 className="page-title">Welcome!</h1>
+            <h2 className="page-subtitle">Smart Home dashboard</h2>
             <div className="lightcontrolssize">
                 <h3 className="lightcontrolstitle">Light Controls</h3>
                 <div className="lightcontrolsgrid">
