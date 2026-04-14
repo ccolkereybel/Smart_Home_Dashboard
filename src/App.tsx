@@ -15,6 +15,10 @@ type HueLight = {
     }
 }
 
+const API_KEY = import.meta.env.VITE_HUE_API_KEY
+const BRIDGE_IP = import.meta.env.VITE_HUE_BRIDGE_IP
+const BASE_URL = `http://${BRIDGE_IP}/api/${API_KEY}`
+
 const customLightNames: Record<string, string> = {
     '1': 'Den Light 1',
     '2': 'Den Light 2',
@@ -29,11 +33,11 @@ const customLightNames: Record<string, string> = {
 }
 
 function App() {
+    console.log('API KEY:', import.meta.env.VITE_HUE_API_KEY)
+    console.log('BRIDGE IP:', import.meta.env.VITE_HUE_BRIDGE_IP)
     const [lights, setLights] = useState<Light[]>([])
     const fetchLights = () => {
-        fetch(
-            'http://192.168.0.201/api/REMOVED/lights'
-        )
+        fetch(`${BASE_URL}/lights`)
             .then((res) => res.json())
             .then((data: Record<string, HueLight>) => {
                 const shaped: Light[] = Object.entries(data).map(
