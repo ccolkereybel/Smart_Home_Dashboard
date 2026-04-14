@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import LightCard from './components/LightCard'
 import './App.css'
+import { mockLights } from './data/mockLights'
 
 type Light = {
     id: string
@@ -18,6 +19,7 @@ type HueLight = {
 const API_KEY = import.meta.env.VITE_HUE_API_KEY
 const BRIDGE_IP = import.meta.env.VITE_HUE_BRIDGE_IP
 const BASE_URL = `http://${BRIDGE_IP}/api/${API_KEY}`
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
 const customLightNames: Record<string, string> = {
     '1': 'Den Light 1',
@@ -33,15 +35,18 @@ const customLightNames: Record<string, string> = {
 }
 
 function App() {
-    console.log('API KEY:', import.meta.env.VITE_HUE_API_KEY)
-    console.log('BRIDGE IP:', import.meta.env.VITE_HUE_BRIDGE_IP)
     const [lights, setLights] = useState<Light[]>([])
+
     const fetchLights = () => {
+        if (USE_MOCK) {
+            setLights(mockLights)
+            return
+        }
         fetch(`${BASE_URL}/lights`)
             .then((res) => res.json())
             .then((data: Record<string, HueLight>) => {
                 const shaped: Light[] = Object.entries(data).map(
-                    ([id, light]: [string, HueLight]) => ({
+                    ([id, light]) => ({
                         id,
                         name: customLightNames[id] || light.name,
                         isOn: light.state.on,
@@ -50,6 +55,27 @@ function App() {
                 setLights(shaped)
             })
     }
+
+    const toggleLight = (id: string) => {
+        if (USE_MOCK) {
+            setLights((prev) =>
+                prev.map((light) =>
+                    light.id === id ? { ...light, isOn: !light.isOn } : light
+                )
+            )
+            return
+        }
+
+        const light = lights.find((l) => l.id === id)
+
+        fetch(`${BASE_URL}/lights/${id}/state`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                on: !light?.isOn,
+            }),
+        }).then(fetchLights)
+    }
+
     useEffect(() => {
         fetchLights()
     }, [])
@@ -64,7 +90,7 @@ function App() {
                         <LightCard
                             key={light.id}
                             light={light}
-                            refresh={fetchLights}
+                            onToggle={toggleLight}
                         />
                     ))}
                 </div>
